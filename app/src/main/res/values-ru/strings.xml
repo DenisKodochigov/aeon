@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Aeon</string>
+    <string name="signin">Веедите учетные данные</string>
+    <string name="payments">Платежи</string>
+    <string name="error_add">ошибка</string>
+    <string name="errorUser">ошибка пользователя</string>
+    <string name="ok">Авторизоваться</string>
+    <string name="enterName">Имя</string>
+    <string name="enterPass">Пароль</string>
+</resources>

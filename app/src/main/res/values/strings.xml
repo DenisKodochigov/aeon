@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Aeon</string>
+    <string name="signin">Sign in</string>
+    <string name="payments">Payments</string>
+    <string name="error_add">error add</string>
+    <string name="errorUser">error user</string>
+    <string name="ok">Sign</string>
+    <string name="enterName">Login</string>
+    <string name="enterPass">Password</string>
+</resources>
