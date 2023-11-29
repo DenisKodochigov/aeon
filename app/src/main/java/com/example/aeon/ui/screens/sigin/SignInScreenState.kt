@@ -14,4 +14,6 @@ data class SignInScreenState (
     val responseToken: MutableState<ResponseToken?> = mutableStateOf(null),
     val token: MutableState<String> = mutableStateOf(""),
     var onClickSignIn: (User) -> Unit = {},
+    var passedAuthorization: (String) -> Unit = {},
+    var goToScreen: (String)->Unit = {}
 )

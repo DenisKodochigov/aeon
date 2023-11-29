@@ -7,4 +7,5 @@
     <string name="ok">Sign</string>
     <string name="enterName">Login</string>
     <string name="enterPass">Password</string>
+    <string name="go_to_payments">Show payments</string>
 </resources>

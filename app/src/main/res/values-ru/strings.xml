@@ -8,4 +8,5 @@
     <string name="ok">Авторизоваться</string>
     <string name="enterName">Имя</string>
     <string name="enterPass">Пароль</string>
+    <string name="go_to_payments">Посмотреть платежи</string>
 </resources>

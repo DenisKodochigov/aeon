@@ -1,5 +1,6 @@
 package com.example.aeon.ui.screens.payments
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aeon.data.DataRepository
@@ -20,16 +21,16 @@ class PaymentViewModel @Inject constructor(
     private val dataRepository: DataRepository
 ): ViewModel() {
 
-    private val _paymentScreenState = MutableStateFlow(PaymentsScreenState())
+    private val _paymentScreenState = MutableStateFlow(PaymentsScreenState(request = true))
     val paymentScreenState: StateFlow<PaymentsScreenState> = _paymentScreenState.asStateFlow()
 
-    fun getToken() {
+    fun getPayments(userToken: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching { dataRepository.getToken(user = UserApi()) }.fold(
+            kotlin.runCatching { dataRepository.getPayments(userToken = userToken) }.fold(
                 onSuccess = {
-//                    _paymentScreenState.update { currentState ->
-//                    currentState.copy(baskets = it ) }
-                            },
+                    _paymentScreenState.update { currentState ->
+                        currentState.copy( payments = mutableStateOf(it)) }
+                 },
                 onFailure = { errorApp.errorApi(it.message!!) }
             )
         }

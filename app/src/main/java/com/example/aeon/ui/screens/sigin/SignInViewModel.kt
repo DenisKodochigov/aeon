@@ -30,7 +30,8 @@ class SignInViewModel @Inject constructor(
                 onSuccess = {
                     if (it != null) {
                         _signInScreenState.update { currentState ->
-                            currentState.copy( responseToken =  mutableStateOf(it))
+                            currentState.copy( responseToken =  mutableStateOf(it))}
+                        _signInScreenState.update { currentState ->
                             currentState.copy( token =  mutableStateOf(it.response.token))}
                     }
                 },

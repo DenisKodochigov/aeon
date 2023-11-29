@@ -19,26 +19,39 @@ import com.example.aeon.ui.components.TextButtonOK
 import com.example.aeon.ui.components.HeaderScreen
 import com.example.aeon.ui.components.OutlinedTextFieldMy
 import com.example.aeon.ui.theme.Dimen
+import com.example.aeon.utils.log
 
-@Composable fun  SignInScreen( screen: ScreenDestination,
+@Composable fun  SignInScreen(
+    screen: ScreenDestination,
+    passedAuthorization: (String) ->Unit,
+    goToScreen: (String)->Unit
 ){
     val viewModel: SignInViewModel = hiltViewModel()
 
     SignInScreenCreateView(
         screen = screen,
-        viewModel = viewModel
+        viewModel = viewModel,
+        passedAuthorization = passedAuthorization,
+        goToScreen = goToScreen
     )
 }
-@Composable fun SignInScreenCreateView(screen: ScreenDestination, viewModel: SignInViewModel,
+@Composable fun SignInScreenCreateView(
+    screen: ScreenDestination,
+    viewModel: SignInViewModel,
+    passedAuthorization: (String) ->Unit,
+    goToScreen: (String)->Unit
 ){
     val uiState by viewModel.signInScreenState.collectAsState()
     uiState.onClickSignIn = {viewModel.getToken(it)}
     uiState.idStringScreen = screen.textHeader
-//    uiState.changeNameBasket = remember { { basket -> viewModel.changeNameBasket(basket) }}
+    uiState.passedAuthorization = { token -> passedAuthorization(token) }
+    uiState.goToScreen = { route -> goToScreen(route) }
+    uiState.enterName.value = "demo"
+    uiState.enterPass.value = "12345"
 
     SignInScreenLayout( uiState = uiState )
 }
-@Composable fun SignInScreenLayout(uiState: SignInScreenState,
+@Composable fun SignInScreenLayout(uiState: SignInScreenState
 ){
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.height(Dimen.paddingElement))
@@ -49,6 +62,9 @@ import com.example.aeon.ui.theme.Dimen
         FieldPassword(uiState = uiState)
         Spacer(modifier = Modifier.height(Dimen.paddingElement))
         ButtonSignIn(uiState = uiState)
+        Spacer(modifier = Modifier.height(Dimen.paddingHeaderScreen))
+        ButtonGoPayments(uiState = uiState)
+        Spacer(modifier = Modifier.height(Dimen.paddingHeaderScreen))
     }
 }
 
@@ -70,13 +86,25 @@ import com.example.aeon.ui.theme.Dimen
         keyboardActionsOnDone = {}
     )
 }
-@Composable fun ButtonSignIn(uiState: SignInScreenState,){
-//    TextButtonOK( onConfirm = { uiState.onClickSignIn(uiState.user.value)} )
-    val userTest = UserApi(login = "demo", password = "12345")
+@Composable fun ButtonSignIn(uiState: SignInScreenState,)
+{
     ButtonApp(
         modifier = Modifier,
         text = stringResource(R.string.ok),
-        onClick = {uiState.onClickSignIn(userTest)},
+        onClick = {uiState.onClickSignIn(
+            UserApi(login = uiState.enterName.value, password =  uiState.enterPass.value))},
         enabled = true
    )
+}
+@Composable fun ButtonGoPayments(uiState: SignInScreenState,)
+{
+    ButtonApp(
+        modifier = Modifier,
+        text = stringResource(R.string.go_to_payments),
+        onClick = {
+            uiState.passedAuthorization( uiState.responseToken.value!!.response.token ) },
+        enabled = if (uiState.responseToken.value != null) {
+            uiState.responseToken.value!!.success == "true"
+        } else false
+    )
 }
