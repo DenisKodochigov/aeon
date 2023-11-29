@@ -1,6 +1,6 @@
 package com.example.aeon.data.api
 
-import com.example.aeon.data.api.entity.ResponseLogin
+import com.example.aeon.data.api.entity.ResponseToken
 import com.example.aeon.data.api.entity.UserApi
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -13,8 +13,7 @@ interface API {
     //Request premieres
     @Headers("Accept: application/json", "Content-type: application/json", "app-key: 12345", "v:1")
     @POST("login")
-    suspend fun getToken(@Body user: UserApi): Response<ResponseLogin>
-
+    suspend fun getToken(@Body user: UserApi): Response<ResponseToken>
 }
 
 val retrofitApi: API by lazy {

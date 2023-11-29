@@ -27,11 +27,12 @@ class SignInViewModel @Inject constructor(
     fun getToken(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.getToken(user) }.fold(
-                onSuccess = {token ->
-//                    _signInScreenState.update { currentState ->
-//                        currentState.token = mutableStateOf(token)
-////                            currentState.token = mutableStateOf(it)
-//                    }
+                onSuccess = {
+                    if (it != null) {
+                        _signInScreenState.update { currentState ->
+                            currentState.copy( responseToken =  mutableStateOf(it))
+                            currentState.copy( token =  mutableStateOf(it.response.token))}
+                    }
                 },
                 onFailure = { errorApp.errorApi(it.message!!) }
             )

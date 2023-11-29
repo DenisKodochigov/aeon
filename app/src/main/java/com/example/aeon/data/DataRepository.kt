@@ -10,5 +10,5 @@ import javax.inject.Singleton
 @Singleton
 class DataRepository @Inject constructor(private val dataSource: DataSourceApi) {
 
-    suspend fun getToken(user: User) = dataSource.getToken(user = user)?.token ?: ""
+    suspend fun getToken(user: User) = dataSource.getToken(user = user)
 }
