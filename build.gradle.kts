@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    val gradleVersion by extra("8.1.2")
+    val gradleVersion by extra("8.1.4")
     val daggerVersion by extra("2.48.1")
     val kotlinVersion by extra("1.9.20")
     val composeVersion by extra("1.5.4")
@@ -14,7 +14,7 @@ buildscript {
     }
 }
 plugins {
-    val gradleVersion = "8.1.2"
+    val gradleVersion = "8.1.4"
     val daggerVersion = "2.48"
     val kotlinVersion = "1.9.20"
     id ("org.jetbrains.kotlin.android") version kotlinVersion apply false

@@ -1,13 +1,17 @@
 package com.example.aeon.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -36,22 +40,6 @@ import com.example.aeon.R
 import com.example.aeon.entity.TypeKeyboard
 import com.example.aeon.ui.theme.colorApp
 
-@Composable
-fun TextButtonOK(onConfirm: () -> Unit, enabled: Boolean = true) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-
-        TextButton(onClick = onConfirm, enabled = enabled) {
-            TextApp(
-                text = stringResource(R.string.ok),
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
-    }
-}
-
 @Composable fun TextApp(
     text: String,
     modifier: Modifier = Modifier,
@@ -72,8 +60,8 @@ fun TextButtonOK(onConfirm: () -> Unit, enabled: Boolean = true) {
     )
 }
 
-@Composable fun HeaderScreen(text: String) {
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+@Composable fun HeaderScreen(text: String, modifier: Modifier = Modifier) {
+    Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
         TextApp(text = text, style = MaterialTheme.typography.headlineSmall)
     }
 }
@@ -111,15 +99,18 @@ fun OutlinedTextFieldMy(
                 localFocusManager.clearFocus()
                 enterValue.value = enterText
                 enterText = ""
-                if (keyboardActionsOnDone != null) {
-                    keyboardActionsOnDone.invoke()
-                }
+                keyboardActionsOnDone?.let { it.invoke() }
                 keyboardController?.hide()
             }
         ),
     )
 }
 
+@Composable fun IconButton(onClick: () ->Unit){
+    Icon(imageVector = Icons.Default.Logout, "",
+        modifier = Modifier.clickable { onClick }
+    )
+}
 @Composable fun ButtonApp(
     text: String,
     onClick: () -> Unit,

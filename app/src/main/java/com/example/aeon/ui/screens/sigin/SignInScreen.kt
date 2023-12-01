@@ -15,11 +15,9 @@ import com.example.aeon.data.api.entity.UserApi
 import com.example.aeon.entity.TypeKeyboard
 import com.example.aeon.navigation.ScreenDestination
 import com.example.aeon.ui.components.ButtonApp
-import com.example.aeon.ui.components.TextButtonOK
 import com.example.aeon.ui.components.HeaderScreen
 import com.example.aeon.ui.components.OutlinedTextFieldMy
 import com.example.aeon.ui.theme.Dimen
-import com.example.aeon.utils.log
 
 @Composable fun  SignInScreen(
     screen: ScreenDestination,

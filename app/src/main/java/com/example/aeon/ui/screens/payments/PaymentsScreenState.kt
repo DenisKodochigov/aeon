@@ -10,5 +10,6 @@ data class PaymentsScreenState (
     val userToken: MutableState<String> = mutableStateOf(""),
     var idStringScreen: Int = 0,
     val payments: MutableState<List<Payment>>? = null,
-    var request: Boolean = false
+    var request: Boolean = false,
+    var logOut: () ->Unit = {},
 )

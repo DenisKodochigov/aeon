@@ -33,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aeon.entity.Payment
 import com.example.aeon.navigation.ScreenDestination
 import com.example.aeon.ui.components.HeaderScreen
+import com.example.aeon.ui.components.IconButton
 import com.example.aeon.ui.components.TextApp
 import com.example.aeon.ui.theme.Dimen
 import com.example.aeon.ui.theme.colorApp
@@ -65,18 +66,29 @@ fun  PaymentsScreen(userToken: String, screen: ScreenDestination,)
     }
     uiState.idStringScreen = screen.textHeader
     uiState.userToken.value = userToken
+    uiState.logOut = {}
     PaymentsScreenLayout( uiState = uiState )
 }
 @Composable fun  PaymentsScreenLayout( uiState: PaymentsScreenState,
 ){
     Column {
         Spacer(modifier = Modifier.height(Dimen.paddingElement))
-        HeaderScreen(text = stringResource(uiState.idStringScreen) )
+        HeaderRow(uiState)
         Spacer(modifier = Modifier.height(Dimen.paddingHeaderScreen))
         ListPayment( uiState = uiState )
     }
 }
-
+@Composable fun  HeaderRow( uiState: PaymentsScreenState,
+){
+    Row (
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically)
+    {
+        IconButton(uiState.logOut)
+        HeaderScreen(text = stringResource(uiState.idStringScreen), modifier = Modifier.weight(1f) )
+    }
+}
 @Composable fun  ListPayment( uiState: PaymentsScreenState,
 ){
     val listState = rememberLazyListState()
@@ -124,12 +136,16 @@ fun  PaymentsScreen(userToken: String, screen: ScreenDestination,)
             modifier = Modifier.padding(vertical = 6.dp)
         )
 
-        Spacer(modifier = Modifier.width(Dimen.lazyItemStart).weight(1f))
+        Spacer(modifier = Modifier
+            .width(Dimen.lazyItemStart)
+            .weight(1f))
         TextApp(
             text = item.amount ?: "",
             textAlign = TextAlign.End,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(vertical = 6.dp).width(100.dp)
+            modifier = Modifier
+                .padding(vertical = 6.dp)
+                .width(100.dp)
         )
         Spacer(modifier = Modifier.width(Dimen.lazyItemEnd))
     }

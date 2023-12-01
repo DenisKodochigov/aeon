@@ -30,7 +30,7 @@ fun AppNavHost(
         ){ navBackStackEntry ->
             val userId = navBackStackEntry.arguments?.getString(PaymentsDestination.userIdArg)
             if (userId != null) {
-                PaymentsScreen(userToken = userId, screen = PaymentsDestination)
+                PaymentsScreen(userToken = userId, screen = PaymentsDestination, )
             }
         }
     }
