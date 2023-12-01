@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aeon.R
 import com.example.aeon.data.api.entity.UserApi
+import com.example.aeon.entity.Authorization
 import com.example.aeon.entity.TypeKeyboard
 import com.example.aeon.navigation.ScreenDestination
 import com.example.aeon.ui.components.ButtonApp
@@ -44,9 +45,11 @@ import com.example.aeon.ui.theme.Dimen
     uiState.idStringScreen = screen.textHeader
     uiState.passedAuthorization = { token -> passedAuthorization(token) }
     uiState.goToScreen = { route -> goToScreen(route) }
-    uiState.enterName.value = "demo"
-    uiState.enterPass.value = "12345"
 
+    if (Authorization.token == ""){
+        uiState.enterName.value = ""
+        uiState.enterPass.value = ""
+    }
     SignInScreenLayout( uiState = uiState )
 }
 @Composable fun SignInScreenLayout(uiState: SignInScreenState
@@ -66,7 +69,7 @@ import com.example.aeon.ui.theme.Dimen
     }
 }
 
-@Composable fun FieldName(uiState: SignInScreenState,){
+@Composable fun FieldName(uiState: SignInScreenState){
     OutlinedTextFieldMy(
         modifier = Modifier,
         enterValue = uiState.enterName,
@@ -75,7 +78,7 @@ import com.example.aeon.ui.theme.Dimen
         keyboardActionsOnDone = {}
    )
 }
-@Composable fun FieldPassword(uiState: SignInScreenState,){
+@Composable fun FieldPassword(uiState: SignInScreenState){
     OutlinedTextFieldMy(
         modifier = Modifier,
         enterValue = uiState.enterPass,
@@ -84,25 +87,24 @@ import com.example.aeon.ui.theme.Dimen
         keyboardActionsOnDone = {}
     )
 }
-@Composable fun ButtonSignIn(uiState: SignInScreenState,)
+@Composable fun ButtonSignIn(uiState: SignInScreenState)
 {
     ButtonApp(
         modifier = Modifier,
         text = stringResource(R.string.ok),
-        onClick = {uiState.onClickSignIn(
-            UserApi(login = uiState.enterName.value, password =  uiState.enterPass.value))},
+        onClick = {
+            uiState.onClickSignIn(
+                UserApi(login = uiState.enterName.value, password =  uiState.enterPass.value))
+        },
         enabled = true
    )
 }
-@Composable fun ButtonGoPayments(uiState: SignInScreenState,)
+@Composable fun ButtonGoPayments(uiState: SignInScreenState)
 {
     ButtonApp(
         modifier = Modifier,
         text = stringResource(R.string.go_to_payments),
-        onClick = {
-            uiState.passedAuthorization( uiState.responseToken.value!!.response.token ) },
-        enabled = if (uiState.responseToken.value != null) {
-            uiState.responseToken.value!!.success == "true"
-        } else false
+        onClick = { uiState.passedAuthorization( Authorization.token ) },
+        enabled = Authorization.token != ""
     )
 }

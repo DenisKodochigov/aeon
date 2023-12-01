@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aeon.data.DataRepository
+import com.example.aeon.entity.Authorization
 import com.example.aeon.entity.ErrorApp
 import com.example.aeon.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,9 +31,8 @@ class SignInViewModel @Inject constructor(
                 onSuccess = {
                     if (it != null) {
                         _signInScreenState.update { currentState ->
-                            currentState.copy( responseToken =  mutableStateOf(it))}
-                        _signInScreenState.update { currentState ->
-                            currentState.copy( token =  mutableStateOf(it.response.token))}
+                            Authorization.token = it.response.token
+                            currentState.copy( responseToken =  mutableStateOf(it.success.toBoolean()))}
                     }
                 },
                 onFailure = { errorApp.errorApi(it.message!!) }

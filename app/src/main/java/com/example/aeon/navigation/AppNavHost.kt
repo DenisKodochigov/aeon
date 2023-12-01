@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.aeon.entity.Authorization
 import com.example.aeon.ui.screens.payments.PaymentsScreen
 import com.example.aeon.ui.screens.sigin.SignInScreen
 
@@ -20,7 +21,8 @@ fun AppNavHost(
     ){
         composable(route = LoginDestination.route,
         ){
-            SignInScreen(screen = LoginDestination,
+            SignInScreen(
+                screen = LoginDestination,
                 passedAuthorization = { navController.navigateToPayment(it) },
                 goToScreen = { navController.navigateToScreen(it)})
         }
@@ -30,7 +32,12 @@ fun AppNavHost(
         ){ navBackStackEntry ->
             val userId = navBackStackEntry.arguments?.getString(PaymentsDestination.userIdArg)
             if (userId != null) {
-                PaymentsScreen(userToken = userId, screen = PaymentsDestination, )
+                PaymentsScreen(
+                    screen = PaymentsDestination,
+                    userToken = userId,
+                    logOut = {
+                        Authorization.clear()
+                        navController.navigateToScreen(LoginDestination.route) })
             }
         }
     }
